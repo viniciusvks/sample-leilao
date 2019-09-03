@@ -1,6 +1,7 @@
 package br.fundatec.lp3.junit.leilao;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -83,6 +84,24 @@ public class Leilao {
 
 		return stringBuilder.toString();
 
+	}
+
+	public void encerra() {
+		
+	}
+
+	public Calendar getData() {
+		return null;
+	}
+
+	public void setData(Calendar antiga) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public boolean estaEncerrado() {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }
