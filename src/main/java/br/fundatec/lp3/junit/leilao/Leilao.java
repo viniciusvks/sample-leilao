@@ -12,6 +12,8 @@ public class Leilao {
 	private String produto;
 	private final Integer NUMERO_MAXIMO_LANCES_POR_PROPONENTE = 5;
 	private Map<String, Integer> lancesDoProponente;
+	private Calendar data;
+	private boolean estaEncerrado;
 
 	public Leilao(String produto) {
 		lances = new ArrayList<Lance>();
@@ -72,11 +74,28 @@ public class Leilao {
 		return produto;
 	}
 
+	public void encerra() {
+		estaEncerrado = true;
+	}
+
+	public Calendar getData() {
+		return data;
+	}
+
+	public void setData(Calendar data) {
+		this.data = data;
+	}
+
+	public boolean estaEncerrado() {
+		return estaEncerrado;
+	}
+
 	@Override
 	public String toString() {
+
 		StringBuilder stringBuilder = new StringBuilder();
 		stringBuilder.append("Produto: " + produto + "\n")
-					 .append("Lances: \n");
+		.append("Lances: \n");
 
 		for(Lance lance : lances) {
 			stringBuilder.append(lance.toString()+"\n");
@@ -84,24 +103,6 @@ public class Leilao {
 
 		return stringBuilder.toString();
 
-	}
-
-	public void encerra() {
-		
-	}
-
-	public Calendar getData() {
-		return null;
-	}
-
-	public void setData(Calendar antiga) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public boolean estaEncerrado() {
-		// TODO Auto-generated method stub
-		return false;
 	}
 
 }
