@@ -1,7 +1,7 @@
 package br.fundatec.lp3.junit.leilao;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,13 +12,14 @@ public class Leilao {
 	private String produto;
 	private final Integer NUMERO_MAXIMO_LANCES_POR_PROPONENTE = 5;
 	private Map<String, Integer> lancesDoProponente;
-	private Calendar data;
+	private LocalDate data;
 	private boolean estaEncerrado;
 
 	public Leilao(String produto) {
 		lances = new ArrayList<Lance>();
 		lancesDoProponente = new HashMap<>();
 		this.produto = produto;
+		estaEncerrado = false;
 	}
 
 	public void propoe(Lance novoLance) {
@@ -78,11 +79,11 @@ public class Leilao {
 		estaEncerrado = true;
 	}
 
-	public Calendar getData() {
+	public LocalDate getData() {
 		return data;
 	}
 
-	public void setData(Calendar data) {
+	public void setData(LocalDate data) {
 		this.data = data;
 	}
 

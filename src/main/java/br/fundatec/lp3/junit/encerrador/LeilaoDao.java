@@ -11,7 +11,12 @@ public class LeilaoDao {
 		return new ArrayList<Leilao>();
 	}
 
-	public void atualiza(Leilao leilao) {
+	public void atualiza(Leilao leilao) throws Exception {
+
+		if(leilao.getLances().isEmpty()) {
+			throw new Exception("Erro ao atualizar Leilao: deve ter pelo menos um lance");
+		}
+
 	}
 
 }

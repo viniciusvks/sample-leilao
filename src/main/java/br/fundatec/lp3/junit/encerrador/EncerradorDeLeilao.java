@@ -1,17 +1,23 @@
 package br.fundatec.lp3.junit.encerrador;
 
-import java.util.Calendar;
+import java.time.Duration;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import br.fundatec.lp3.junit.leilao.Leilao;
 
 public class EncerradorDeLeilao {
 
+	private LeilaoDao dao;
 	private int total = 0;
 
-	public void encerraLeiloesAntigos() {
+	public EncerradorDeLeilao(LeilaoDao dao) {
+		this.dao = dao;
+	}
 
-		LeilaoDao dao = new LeilaoDao();
+	public void encerraLeiloesAntigos() throws Exception {
+
 		List<Leilao> todosLeiloesCorrentes = dao.correntes();
 
 		for(Leilao leilao : todosLeiloesCorrentes) {
@@ -26,21 +32,11 @@ public class EncerradorDeLeilao {
 	}
 
 	private boolean comecouSemanaPassada(Leilao leilao) {
-		return diasEntre(leilao.getData(), Calendar.getInstance()) >= 7;
-	}
 
-	private int diasEntre(Calendar inicio, Calendar fim) {
+		LocalDateTime inicioDoLeilao = leilao.getData().atStartOfDay();
+		LocalDateTime hoje = LocalDate.now().atStartOfDay();
 
-		Calendar data = (Calendar) inicio.clone();
-		int diasNoIntervalo = 0;
-
-		while(data.before(fim)) {
-			data.add(Calendar.DAY_OF_MONTH, 1);
-			diasNoIntervalo++;
-		}
-
-		return diasNoIntervalo;
-
+		return Duration.between(inicioDoLeilao, hoje).toDays() >= 7.0;
 	}
 
 	public int getTotalEncerrados() {
