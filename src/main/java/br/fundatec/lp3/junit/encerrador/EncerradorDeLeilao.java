@@ -6,13 +6,14 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import br.fundatec.lp3.junit.leilao.Leilao;
+import br.fundatec.lp3.junit.leilao.dao.LeilaoDaoImpl;
 
 public class EncerradorDeLeilao {
 
-	private LeilaoDao dao;
+	private LeilaoDaoImpl dao;
 	private int total = 0;
 
-	public EncerradorDeLeilao(LeilaoDao dao) {
+	public EncerradorDeLeilao(LeilaoDaoImpl dao) {
 		this.dao = dao;
 	}
 
@@ -24,7 +25,7 @@ public class EncerradorDeLeilao {
 
 			if(comecouSemanaPassada(leilao)) {
 				leilao.encerra();
-				dao.atualiza(leilao);
+				dao.update(leilao);
 				total++;
 			}
 

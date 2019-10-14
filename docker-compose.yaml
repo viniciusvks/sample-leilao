@@ -1,0 +1,17 @@
+version: '3'
+services:
+    mysql:
+        image: mysql:latest
+        container_name: "mysql"
+        ports:
+            - 3306:3306
+        volumes:
+            - db:/var/lib/mysql
+        environment:
+            TZ: "America/Sao_Paulo"
+            MYSQL_ALLOW_EMPTY_PASSWORD: "no"
+            MYSQL_ROOT_PASSWORD: "rootpwd"
+            MYSQL_DATABASE: 'sample-leilao'
+
+volumes:
+    db:
