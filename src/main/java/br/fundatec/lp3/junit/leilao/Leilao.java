@@ -8,6 +8,7 @@ import java.util.Map;
 
 public class Leilao {
 
+	private int id;
 	private List<Lance> lances;
 	private String produto;
 	private final Integer NUMERO_MAXIMO_LANCES_POR_PROPONENTE = 5;
@@ -65,6 +66,14 @@ public class Leilao {
 	private boolean excedeLancesPorProponente(Usuario proponente) {
 		Integer numeroDeLancesJaRegistrados = lancesDoProponente.getOrDefault(proponente.getNome(), 0);
 		return numeroDeLancesJaRegistrados >= NUMERO_MAXIMO_LANCES_POR_PROPONENTE;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public List<Lance> getLances() {

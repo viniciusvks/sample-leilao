@@ -1,4 +1,4 @@
-package br.fundatec.lp3.junit.leilao.dao;
+package br.fundatec.lp3.junit.dao;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

@@ -5,15 +5,15 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import br.fundatec.lp3.junit.dao.LeilaoDao;
 import br.fundatec.lp3.junit.leilao.Leilao;
-import br.fundatec.lp3.junit.leilao.dao.LeilaoDaoImpl;
 
 public class EncerradorDeLeilao {
 
-	private LeilaoDaoImpl dao;
+	private LeilaoDao dao;
 	private int total = 0;
 
-	public EncerradorDeLeilao(LeilaoDaoImpl dao) {
+	public EncerradorDeLeilao(LeilaoDao dao) {
 		this.dao = dao;
 	}
 

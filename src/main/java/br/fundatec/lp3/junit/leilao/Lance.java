@@ -2,12 +2,21 @@ package br.fundatec.lp3.junit.leilao;
 
 public class Lance {
 
+	private int id;
 	private Usuario proponente;
 	private double valor;
 
 	public Lance(Usuario proponente, double valor) {
 		this.proponente = proponente;
 		this.valor = valor;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public double getValor() {

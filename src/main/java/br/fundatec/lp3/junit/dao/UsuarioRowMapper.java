@@ -1,4 +1,4 @@
-package br.fundatec.lp3.junit.leilao.dao;
+package br.fundatec.lp3.junit.dao;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -11,7 +11,9 @@ public class UsuarioRowMapper implements RowMapper<Usuario> {
 
 	@Override
 	public Usuario mapRow(ResultSet rs, int rowNum) throws SQLException {
-		return new Usuario(rs.getString("nome"));
+		Usuario usuario = new Usuario(rs.getString("nome"));
+		usuario.setId(rs.getInt("id"));
+		return usuario;
 	}
 
 }

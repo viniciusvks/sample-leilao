@@ -12,11 +12,18 @@
 		<property name="url" value="${jdbc.url}"></property>
 	</bean>
 	 
-	<bean id="dao" class="br.fundatec.lp3.junit.leilao.dao.LeilaoDaoImpl">
+	<bean id="leilaoDao" class="br.fundatec.lp3.junit.dao.LeilaoDao">
 		<property name="dataSource" ref="ds"></property>
 	</bean>
 	
-	<!-- <context:component-scan base-package="dev.viniciusvks.springdemo"/> -->
+	<bean id="lanceDao" class="br.fundatec.lp3.junit.dao.LanceDao">
+		<property name="dataSource" ref="ds"></property>
+	</bean>
+	
+	<bean id="usuarioDao" class="br.fundatec.lp3.junit.dao.UsuarioDao">
+		<property name="dataSource" ref="ds"></property>
+	</bean>
+	
 	<context:property-placeholder location="db.properties" />
 	
 </beans>
