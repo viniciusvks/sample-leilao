@@ -18,7 +18,7 @@ public class LeilaoDao implements Dao {
 
 	private JdbcTemplate jdbcTemplate;
 
-	public List<Leilao> correntes() {
+	public List<Leilao> ativos() {
 
 		List<Leilao> leiloes = jdbcTemplate.query("select * from leiloes where encerrado = false", new LeilaoRowMapper());
 
@@ -47,7 +47,7 @@ public class LeilaoDao implements Dao {
 		jdbcTemplate = new JdbcTemplate(ds);
 	}
 
-	public void create(Leilao leilao) {
+	public void cria(Leilao leilao) {
 
 		jdbcTemplate.update(
 			"insert into leiloes (produto, data_inicio, encerrado) values (?, ?, ?)",
@@ -89,7 +89,7 @@ public class LeilaoDao implements Dao {
 	}
 
 	@Override
-	public void truncate() {
+	public void limpa() {
 		jdbcTemplate.execute("delete from leiloes");
 	}
 

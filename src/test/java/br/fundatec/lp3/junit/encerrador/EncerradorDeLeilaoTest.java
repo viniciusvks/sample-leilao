@@ -1,6 +1,10 @@
 package br.fundatec.lp3.junit.encerrador;
 
+import static org.junit.Assert.assertEquals;
+
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -41,51 +45,52 @@ public class EncerradorDeLeilaoTest {
 	@Before
 	public void setUp() {
 
-		tabelaUsuarios.truncate();
+		tabelaUsuarios.limpa();
 
-		tabelaUsuarios.create(new Usuario("Joao"));
-		tabelaUsuarios.create(new Usuario("Maria"));
-		tabelaUsuarios.create(new Usuario("Jose"));
+		tabelaUsuarios.cria(new Usuario("Joao"));
+		tabelaUsuarios.cria(new Usuario("Maria"));
+		tabelaUsuarios.cria(new Usuario("Jose"));
 
 	}
 
 	@After
 	public void tearDown() {
 
-		tabelaUsuarios.truncate();
-		tabelaLeiloes.truncate();
-
-	}
-
-	@Test
-	public void test() {
-
-		UsuarioDao usuarios = (UsuarioDao) ctx.getBean("usuarioDao");
-
-		Usuario joao = usuarios.findByNome("Joao");
-		Usuario maria = usuarios.findByNome("Maria");
-		Usuario jose = usuarios.findByNome("Jose");
-
-		Lance lanceDoJoao = new Lance(joao, 10.0);
-		Lance lanceDaMaria = new Lance(maria, 20.0);
-		Lance lanceDoJose = new Lance(jose, 30.0);
-
-		Leilao leilao = new Leilao("Novo Produto");
-		leilao.setData(LocalDate.now());
-
-		leilao.propoe(lanceDoJoao);
-		leilao.propoe(lanceDaMaria);
-		leilao.propoe(lanceDoJose);
-
-		LeilaoDao leiloes = (LeilaoDao) ctx.getBean("leilaoDao");
-
-		leiloes.create(leilao);
+		tabelaUsuarios.limpa();
+		tabelaLeiloes.limpa();
 
 	}
 
 	@Test
 	public void testaEncerramentoParaMultiplosLeiloes() throws Exception {
+ 
+		Usuario joao = tabelaUsuarios.buscaComNome("Joao");
+		Usuario maria = tabelaUsuarios.buscaComNome("Maria");
+		
+		Leilao leilaoVideoGame = new Leilao("Video Game");
+		leilaoVideoGame.setData(diasAtras(6));
+		Lance lanceDoJoao = new Lance(joao, 10.0);
+		leilaoVideoGame.propoe(lanceDoJoao);
+		tabelaLeiloes.cria(leilaoVideoGame);
 
+		Leilao leilaoComputador = new Leilao("Computador");
+		leilaoComputador.setData(diasAtras(7));
+		Lance lanceDaMaria = new Lance(maria, 20.0);
+		leilaoComputador.propoe(lanceDaMaria);
+		tabelaLeiloes.cria(leilaoComputador);
+		
+		EncerradorDeLeilao encerrador = new EncerradorDeLeilao(tabelaLeiloes);
+		
+		encerrador.encerraLeiloesAntigos();
+		
+		List<Leilao> leiloesAtivos = tabelaLeiloes.ativos();
+		
+		assertEquals(1, leiloesAtivos.size());
+		
+	}
+
+	private LocalDate diasAtras(int dias) {
+		return LocalDate.now().minusDays(dias);
 	}
 
 	@Test

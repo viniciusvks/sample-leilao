@@ -17,7 +17,7 @@ public class LanceRowMapper implements RowMapper<Lance> {
 		try(ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext("beans.xml")) {
 
 			UsuarioDao usuarios = (UsuarioDao) ctx.getBean("usuarioDao");
-			Usuario usuario = usuarios.findById(rs.getInt("id"));
+			Usuario usuario = usuarios.buscaPorId(rs.getInt("id"));
 
 			Lance lance = new Lance(usuario, rs.getDouble("valor"));
 			lance.setId(rs.getInt("id"));

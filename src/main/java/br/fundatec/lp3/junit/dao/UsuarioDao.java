@@ -15,23 +15,23 @@ public class UsuarioDao implements Dao {
 		jdbcTemplate = new JdbcTemplate(ds);
 	}
 
-	public boolean create(Usuario usuario) {
+	public boolean cria(Usuario usuario) {
 		String query = "insert into usuarios (nome) values (?)";
 		return jdbcTemplate.update(query, usuario.getNome()) == 1;
 	}
 
-	public Usuario findByNome(String nome) {
+	public Usuario buscaComNome(String nome) {
 		String query = "select * from usuarios where nome = ?";
 		return jdbcTemplate.queryForObject(query, new UsuarioRowMapper(), nome);
 	}
 
-	public Usuario findById(int id) {
+	public Usuario buscaPorId(int id) {
 		String query = "select * from usuarios where id = ?";
 		return jdbcTemplate.queryForObject(query, new UsuarioRowMapper(), id);
 	}
 
 	@Override
-	public void truncate() {
+	public void limpa() {
 		jdbcTemplate.execute("delete from usuarios");
 	}
 

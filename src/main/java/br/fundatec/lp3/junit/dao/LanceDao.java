@@ -25,7 +25,7 @@ public class LanceDao implements Dao {
 		try(ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext("beans.xml")) {
 
 			UsuarioDao usuarios = (UsuarioDao) ctx.getBean("usuarioDao");
-			Usuario usuario = usuarios.findByNome(lance.getProponente().getNome());
+			Usuario usuario = usuarios.buscaComNome(lance.getProponente().getNome());
 
 			jdbcTemplate.update(
 				"insert into lances (proponente_id, valor, id_leilao) values (?, ?, ?)",
@@ -43,7 +43,7 @@ public class LanceDao implements Dao {
 	}
 
 	@Override
-	public void truncate() {
+	public void limpa() {
 		jdbcTemplate.execute("delete from lances");
 	}
 

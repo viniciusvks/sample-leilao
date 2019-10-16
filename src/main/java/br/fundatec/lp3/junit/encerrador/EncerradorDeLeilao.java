@@ -19,7 +19,7 @@ public class EncerradorDeLeilao {
 
 	public void encerraLeiloesAntigos() throws Exception {
 
-		List<Leilao> todosLeiloesCorrentes = dao.correntes();
+		List<Leilao> todosLeiloesCorrentes = dao.ativos();
 
 		for(Leilao leilao : todosLeiloesCorrentes) {
 
