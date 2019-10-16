@@ -91,6 +91,7 @@ public class EncerradorDeLeilaoTest {
 
 	private LocalDate diasAtras(int dias) {
 		return LocalDate.now().minusDays(dias);
+
 	}
 
 	@Test

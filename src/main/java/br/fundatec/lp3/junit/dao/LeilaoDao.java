@@ -76,11 +76,16 @@ public class LeilaoDao implements Dao {
 
 	}
 
-	public boolean update(Leilao leilao) {
-//		if(leilao.getLances().isEmpty()) {
-//			throw new Exception("Erro ao atualizar Leilao: deve ter pelo menos um lance");
-//		}
-		return false;
+	public void update(Leilao leilao) {
+		
+		jdbcTemplate.update(
+			"update leiloes set produto = ?, inicio = ?, encerrado = ? where id = ?",
+			leilao.getProduto(),
+			leilao.getData(),
+			leilao.estaEncerrado(),
+			leilao.getId()
+		);
+		
 	}
 
 	public Leilao getById(Integer id) {
