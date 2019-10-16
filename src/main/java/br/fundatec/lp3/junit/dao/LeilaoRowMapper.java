@@ -18,6 +18,7 @@ public class LeilaoRowMapper implements RowMapper<Leilao> {
 
 		Leilao leilao = new Leilao(rs.getString("produto"));
 
+		leilao.setId(rs.getInt("id"));
 		Date dataInicio = rs.getDate("data_inicio");
 		String strDate = new SimpleDateFormat("dd/MM/yyyy").format(dataInicio);
 		

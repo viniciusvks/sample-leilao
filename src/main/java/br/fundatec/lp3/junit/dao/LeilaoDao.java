@@ -76,10 +76,10 @@ public class LeilaoDao implements Dao {
 
 	}
 
-	public void update(Leilao leilao) {
+	public void atualiza(Leilao leilao) {
 		
 		jdbcTemplate.update(
-			"update leiloes set produto = ?, inicio = ?, encerrado = ? where id = ?",
+			"update leiloes set produto = ?, data_inicio = ?, encerrado = ? where id = ?",
 			leilao.getProduto(),
 			leilao.getData(),
 			leilao.estaEncerrado(),

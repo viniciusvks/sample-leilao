@@ -23,9 +23,13 @@ public class EncerradorDeLeilao {
 
 		for(Leilao leilao : todosLeiloesCorrentes) {
 
+			if(leilao.getLances().isEmpty()) {
+				throw new Exception("Leilao deve ter pelo menos um lance para ser encerrado");
+			}
+			
 			if(comecouSemanaPassada(leilao)) {
 				leilao.encerra();
-				dao.update(leilao);
+				dao.atualiza(leilao);
 				total++;
 			}
 
