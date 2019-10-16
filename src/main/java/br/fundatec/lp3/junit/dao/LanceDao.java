@@ -1,10 +1,11 @@
 package br.fundatec.lp3.junit.dao;
 
+import java.util.List;
+
 import javax.sql.DataSource;
 
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.support.rowset.SqlRowSet;
 
 import br.fundatec.lp3.junit.leilao.Lance;
 import br.fundatec.lp3.junit.leilao.Leilao;
@@ -19,7 +20,7 @@ public class LanceDao implements Dao {
 		jdbcTemplate = new JdbcTemplate(ds);
 	}
 
-	public Lance create(Lance lance) {
+	public void create(Lance lance, Leilao leilao) {
 
 		try(ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext("beans.xml")) {
 
@@ -27,26 +28,18 @@ public class LanceDao implements Dao {
 			Usuario usuario = usuarios.findByNome(lance.getProponente().getNome());
 
 			jdbcTemplate.update(
-				"insert into lances (proponente_id, valor) values (?, ?)",
+				"insert into lances (proponente_id, valor, id_leilao) values (?, ?, ?)",
 				usuario.getId(),
-				lance.getValor()
+				lance.getValor(),
+				leilao.getId()
 			);
-
-			SqlRowSet lastCreated = jdbcTemplate.queryForRowSet("select * from lances order by id desc limit 1");
-			lastCreated.next();
-			int id = lastCreated.getInt("id");
-
-			lance.setId(id);
-
-			return lance;
 
 		}
 
 	}
 
-	public Leilao getById(Integer id) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Lance> getByLeilao(Leilao leilao) {
+		return jdbcTemplate.query("select * from lances where id_leilao = ?", new LanceRowMapper(), leilao.getId());
 	}
 
 	@Override

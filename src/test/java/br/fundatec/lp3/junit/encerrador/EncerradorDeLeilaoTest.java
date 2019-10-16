@@ -2,6 +2,9 @@ package br.fundatec.lp3.junit.encerrador;
 
 import java.time.LocalDate;
 
+import org.junit.After;
+import org.junit.AfterClass;
+import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -15,63 +18,68 @@ import br.fundatec.lp3.junit.leilao.Usuario;
 
 public class EncerradorDeLeilaoTest {
 
+	private static ClassPathXmlApplicationContext ctx;
+	private static UsuarioDao tabelaUsuarios;
+	private static LeilaoDao tabelaLeiloes;
+
 	@BeforeClass
-	public static void setUp() {
+	public static void initAppContext() {
 
-		try(ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext("beans.xml")) {
-
-			UsuarioDao usuarios = (UsuarioDao) ctx.getBean("usuarioDao");
-			usuarios.truncate();
-
-			Usuario joao = new Usuario("Joao");
-			Usuario maria = new Usuario("Maria");
-			Usuario jose = new Usuario("Jose");
-
-			usuarios.create(joao);
-			usuarios.create(maria);
-			usuarios.create(jose);
-
-		}
+		ctx = new ClassPathXmlApplicationContext("beans.xml");
+		tabelaUsuarios = (UsuarioDao) ctx.getBean("usuarioDao");
+		tabelaLeiloes = (LeilaoDao) ctx.getBean("leilaoDao");
 
 	}
 
-//	@After
+	@AfterClass
+	public static void closeAppContext() {
+
+		ctx.close();
+
+	}
+
+	@Before
+	public void setUp() {
+
+		tabelaUsuarios.truncate();
+
+		tabelaUsuarios.create(new Usuario("Joao"));
+		tabelaUsuarios.create(new Usuario("Maria"));
+		tabelaUsuarios.create(new Usuario("Jose"));
+
+	}
+
+	@After
 	public void tearDown() {
 
-		try(ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext("beans.xml")) {
-			UsuarioDao usuarios = (UsuarioDao) ctx.getBean("usuarioDao");
-			usuarios.truncate();
-		}
+		tabelaUsuarios.truncate();
+		tabelaLeiloes.truncate();
 
 	}
 
 	@Test
 	public void test() {
 
-		try(ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext("beans.xml")) {
+		UsuarioDao usuarios = (UsuarioDao) ctx.getBean("usuarioDao");
 
-			UsuarioDao usuarios = (UsuarioDao) ctx.getBean("usuarioDao");
+		Usuario joao = usuarios.findByNome("Joao");
+		Usuario maria = usuarios.findByNome("Maria");
+		Usuario jose = usuarios.findByNome("Jose");
 
-			Usuario joao = usuarios.findByNome("Joao");
-			Usuario maria = usuarios.findByNome("Maria");
-			Usuario jose = usuarios.findByNome("Jose");
+		Lance lanceDoJoao = new Lance(joao, 10.0);
+		Lance lanceDaMaria = new Lance(maria, 20.0);
+		Lance lanceDoJose = new Lance(jose, 30.0);
 
-			Lance lanceDoJoao = new Lance(joao, 10.0);
-			Lance lanceDaMaria = new Lance(maria, 20.0);
-			Lance lanceDoJose = new Lance(jose, 30.0);
+		Leilao leilao = new Leilao("Novo Produto");
+		leilao.setData(LocalDate.now());
 
-			Leilao leilao = new Leilao("Novo Produto");
-			leilao.setData(LocalDate.now());
+		leilao.propoe(lanceDoJoao);
+		leilao.propoe(lanceDaMaria);
+		leilao.propoe(lanceDoJose);
 
-			leilao.propoe(lanceDoJoao);
-			leilao.propoe(lanceDaMaria);
-			leilao.propoe(lanceDoJose);
+		LeilaoDao leiloes = (LeilaoDao) ctx.getBean("leilaoDao");
 
-			LeilaoDao leiloes = (LeilaoDao) ctx.getBean("leilaoDao");
-
-			leiloes.create(leilao);
-
-		}
+		leiloes.create(leilao);
 
 	}
 

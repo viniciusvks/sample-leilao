@@ -1,6 +1,5 @@
 package br.fundatec.lp3.junit.dao;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -20,7 +19,26 @@ public class LeilaoDao implements Dao {
 	private JdbcTemplate jdbcTemplate;
 
 	public List<Leilao> correntes() {
-		return new ArrayList<Leilao>();
+
+		List<Leilao> leiloes = jdbcTemplate.query("select * from leiloes where encerrado = false", new LeilaoRowMapper());
+
+		try(ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext("beans.xml")) {
+
+			LanceDao lanceDao = (LanceDao) ctx.getBean("lanceDao");
+
+			for(Leilao leilao : leiloes) {
+
+				List<Lance> lancesDoLeilao = lanceDao.getByLeilao(leilao);
+
+				for (Lance lance : lancesDoLeilao) {
+					leilao.propoe(lance);
+				}
+
+			}
+
+		}
+
+		return leiloes;
 	}
 
 	@Override
@@ -29,7 +47,7 @@ public class LeilaoDao implements Dao {
 		jdbcTemplate = new JdbcTemplate(ds);
 	}
 
-	public boolean create(Leilao leilao) {
+	public void create(Leilao leilao) {
 
 		jdbcTemplate.update(
 			"insert into leiloes (produto, data_inicio, encerrado) values (?, ?, ?)",
@@ -51,35 +69,17 @@ public class LeilaoDao implements Dao {
 			List<Lance> lances = leilao.getLances();
 
 			for(Lance lance : lances) {
-				lance = lanceDao.create(lance);
-				attach(leilao, lance);
+				lanceDao.create(lance, leilao);
 			}
 
 		}
 
-		return true;
-
-	}
-
-
-	private void attach(Leilao leilao, Lance lance) {
-
-		jdbcTemplate.update(
-			"insert into lances_leiloes (id_leilao, id_lance) values (?, ?)",
-			leilao.getId(),
-			lance.getId()
-		);
 	}
 
 	public boolean update(Leilao leilao) {
 //		if(leilao.getLances().isEmpty()) {
 //			throw new Exception("Erro ao atualizar Leilao: deve ter pelo menos um lance");
 //		}
-		return false;
-	}
-
-	public boolean delete(Leilao leilao) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
@@ -90,8 +90,6 @@ public class LeilaoDao implements Dao {
 
 	@Override
 	public void truncate() {
-		jdbcTemplate.execute("delete from lances_leiloes");
-		jdbcTemplate.execute("delete from lances");
 		jdbcTemplate.execute("delete from leiloes");
 	}
 
