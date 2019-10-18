@@ -40,6 +40,17 @@ public class LeilaoDao implements Dao {
 
 		return leiloes;
 	}
+	
+	public void criaTabela() {
+		String query = "create table leiloes\n" + 
+				"(\n" + 
+				"    id          int auto_increment primary key,\n" + 
+				"    produto     varchar(255) null,\n" + 
+				"    data_inicio date         null,\n" + 
+				"    encerrado   tinyint(1)   null\n" + 
+				");";
+		jdbcTemplate.update(query);
+	}
 
 	@Override
 	@Autowired

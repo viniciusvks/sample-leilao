@@ -14,6 +14,11 @@ public class UsuarioDao implements Dao {
 	public void setDataSource(DataSource ds) {
 		jdbcTemplate = new JdbcTemplate(ds);
 	}
+	
+	public void criaTabela() {
+		String query = "create table usuarios(id   int auto_increment,nome varchar(255) not null,constraint usuarios_pk unique (id))";
+		jdbcTemplate.update(query);
+	}
 
 	public boolean cria(Usuario usuario) {
 		String query = "insert into usuarios (nome) values (?)";
