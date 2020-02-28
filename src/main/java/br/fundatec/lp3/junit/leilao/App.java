@@ -11,8 +11,8 @@ public class App {
 		Leilao leilao = new Leilao("Playstation 4 Novo");
 
 		Lance lanceDoJoao = new Lance(joao, 300.0);
-		Lance lanceDaMaria = new Lance(maria, 400.0);
-		Lance lanceDoJose = new Lance(jose, 250.0);
+		Lance lanceDaMaria = new Lance(jose, 400.0);
+		Lance lanceDoJose = new Lance(maria, 250.0);
 
 		leilao.propoe(lanceDoJose);
 		leilao.propoe(lanceDoJoao);
@@ -24,8 +24,6 @@ public class App {
 		System.out.println(leilao.toString());
 		System.out.println("Maior lance: ");
 		System.out.println(avaliador.getMaiorLance().toString());
-		System.out.println("Menor lance: ");
-		System.out.println(avaliador.getMenorLance().toString());
 
 	}
 }
