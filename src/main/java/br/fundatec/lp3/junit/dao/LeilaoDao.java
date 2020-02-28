@@ -87,7 +87,7 @@ public class LeilaoDao implements Dao {
 
 	}
 
-	public void atualiza(Leilao leilao) {
+	public void atualiza(Leilao leilao) throws Exception {
 		
 		jdbcTemplate.update(
 			"update leiloes set produto = ?, data_inicio = ?, encerrado = ? where id = ?",
