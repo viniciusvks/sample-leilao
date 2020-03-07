@@ -14,7 +14,32 @@ public class Leilao {
 	}
 
 	public void propoe(Lance novoLance) {
+		
+		if(lancePertenceAoUsuarioAnterior(novoLance)) {
+			return;
+		}
+		
 		lances.add(novoLance);
+	}
+	
+	private boolean lancePertenceAoUsuarioAnterior(Lance lance) {
+		
+		if(lances.isEmpty()) {
+			return false;
+		}
+		
+		int tamanhoDaListaDeLances = lances.size();
+		int indiceDoUltimoLance = tamanhoDaListaDeLances - 1;
+		Lance ultimoLance = lances.get(indiceDoUltimoLance);
+		Usuario proponenteUltimoLance = ultimoLance.getProponente();
+		Usuario proponente = lance.getProponente();
+		
+		if(proponente.getNome().equals(proponenteUltimoLance.getNome())) {
+			return true;
+		}
+		
+		return false;
+		
 	}
 
 	public List<Lance> getLances() {
