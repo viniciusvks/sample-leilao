@@ -10,16 +10,16 @@ import br.fundatec.lp3.junit.leilao.Leilao;
 
 public class EncerradorDeLeilao {
 
-	private LeilaoDao dao;
+	private LeilaoDao tabelaLeilao;
 	private int total = 0;
 
-	public EncerradorDeLeilao(LeilaoDao dao) {
-		this.dao = dao;
+	public EncerradorDeLeilao(LeilaoDao tabelaLeilao) {
+		this.tabelaLeilao = tabelaLeilao;
 	}
 
 	public void encerraLeiloesAntigos() throws Exception {
 
-		List<Leilao> todosLeiloesCorrentes = dao.ativos();
+		List<Leilao> todosLeiloesCorrentes = tabelaLeilao.ativos();
 
 		for(Leilao leilao : todosLeiloesCorrentes) {
 
@@ -29,7 +29,7 @@ public class EncerradorDeLeilao {
 			
 			if(comecouSemanaPassada(leilao)) {
 				leilao.encerra();
-				dao.atualiza(leilao);
+				tabelaLeilao.atualiza(leilao);
 				total++;
 			}
 
