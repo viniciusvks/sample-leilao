@@ -19,6 +19,26 @@ public class LanceDao implements Dao {
 	public void setDataSource(DataSource ds) {
 		jdbcTemplate = new JdbcTemplate(ds);
 	}
+	
+	public void criaTabela() {
+	    
+	    String query = "create table lances\n" + 
+	            "(\n" + 
+	            "    id            int auto_increment primary key,\n" + 
+	            "    proponente_id int              null,\n" + 
+	            "    valor         double default 0 null,\n" + 
+	            "    id_leilao     int              not null,\n" + 
+	            "    constraint lances_leiloes_id_fk\n" + 
+	            "        foreign key (id_leilao) references leiloes (id)\n" + 
+	            "            on update cascade on delete cascade,\n" + 
+	            "    constraint lances_usuarios_id_fk\n" + 
+	            "        foreign key (proponente_id) references usuarios (id)\n" + 
+	            "            on update cascade on delete cascade\n" + 
+	            ")";
+	    
+	    jdbcTemplate.update(query);
+	            
+	}
 
 	public void create(Lance lance, Leilao leilao) {
 
