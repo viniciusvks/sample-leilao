@@ -65,24 +65,6 @@ public class EncerradorDeLeilaoTest {
  
 		
 	}
-
-	@Test
-	public void testaEncerramentoParaListaVaziaDeLeiloes() throws Exception {
-		
-
-	}
-
-	@Test
-	public void testaEncerramentoParaLeiloesPrestesASeremEncerrados() throws Exception {
-
-		
-	}
-
-	@Test
-	public void testaEncerramentoParaLeilaoSemLances() {
- 
-
-	}
 	
 	private LocalDate diasAtras(int dias) {
 		return LocalDate.now().minusDays(dias);
